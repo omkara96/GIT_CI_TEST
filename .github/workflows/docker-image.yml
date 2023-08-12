@@ -1,0 +1,36 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - closed
+
+
+jobs:
+  build-and-push:
+
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && contains(github.event.pull_request.title, 'BUILD_CONTAINER_IMAGE'))
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: omkara/guestbook-image:latest
+
+      - name: Clean up
+        run: docker builder prune -f
