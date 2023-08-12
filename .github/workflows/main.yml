@@ -1,9 +1,9 @@
 name: Build and Push Docker Image
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch: # Putting here is also fine!!
+  release:
+    types: [created]
 
 jobs:
   build-and-push:
