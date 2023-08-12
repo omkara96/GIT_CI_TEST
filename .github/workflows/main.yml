@@ -23,6 +23,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          file: ./guestbook-go/Dockerfile
           push: true
           tags: omkara96/guestbook-image:latest
 
