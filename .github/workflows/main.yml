@@ -27,5 +27,5 @@ jobs:
           tags: omkara96/guestbook-image:latest
 
       - name: Clean up
-        run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+        run: docker builder prune -f
 
